@@ -7,7 +7,7 @@ client = MongoClient()
 db = client.phones
 
 samsung = db.samsung
-
+"""
 db.samsung.insert_one({
     "title": "A50",
     "ram": "64",
@@ -19,6 +19,12 @@ db.samsung.insert_one({
     "price": 500,
     "url": "https://realpython.com/python-csv/"
 })
-
+"""
 for doc in samsung.find():
     pprint.pprint(doc)
+
+collections = db.list_collection_names()
+print(collections)
+
+count = samsung.count_documents({})
+print(count)
