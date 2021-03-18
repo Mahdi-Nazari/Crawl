@@ -11,7 +11,7 @@ db = client.phones
 
 mobile = db.mobile
 
-with open('Crawl/sitemap-test.xml') as xml_file:
+with open('sitemap-test.xml') as xml_file:
     xml_soup = BeautifulSoup(xml_file, 'lxml')
 
 for urls in xml_soup.find_all('loc'):
@@ -22,16 +22,20 @@ for urls in xml_soup.find_all('loc'):
         continue
     else:
         main_url = url
-        
-    #headers_dict = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"}
-    source = requests.get(main_url).text
+
+    title = main_url.split('/')[3]
+    title = title.split('-')[0]
+
+    headers_dict = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"}
+    source = requests.get(main_url, headers_dict).text
 
     soup = BeautifulSoup(source, 'html.parser')
-
-    """with open('source.html') as html_file:
-        soup = BeautifulSoup(html_file, 'html.parser')"""
+    
+    # with open('source.html') as html_file:
+    #     soup = BeautifulSoup(html_file, 'html.parser')
 
     data = {}
+    data['title'] = title
 
     table_list = soup.find('div', id='specs-list')
 
@@ -45,9 +49,8 @@ for urls in xml_soup.find_all('loc'):
                 data[th.text][ttl.text] = nfo.text
 
     data['Sound']['3/5mm jack '] = data['Sound'].pop('3.5mm jack ')
-    print(data)
 
     db.mobile.insert_one(data)
 
-for doc in mobile.find():
-    pprint.pprint(doc)
+# for doc in mobile.find():
+#     pprint.pprint(doc)
