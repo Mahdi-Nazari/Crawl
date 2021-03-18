@@ -23,8 +23,8 @@ db.samsung.insert_one({
 for doc in samsung.find():
     pprint.pprint(doc)
 
-collections = db.list_collection_names()
+"""collections = db.list_collection_names()
 print(collections)
 
 count = samsung.count_documents({})
-print(count)
+print(count)"""
