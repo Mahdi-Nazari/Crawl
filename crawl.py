@@ -9,7 +9,7 @@ from html_parser import html_parser
 
 client = MongoClient()
 db = client.phones
-mobile_test = db.mobile_test
+mobile = db.mobile
 
 
 with open('Crawl/sitemap-phones.xml') as xml_file:
@@ -24,7 +24,7 @@ for url in urls_list:
     begin=time.time()
     
     if len(iters) == 5:
-        db.mobile_test.insert_many(iters)
+        db.mobile.insert_many(iters)
         iters.clear()
 
     source = requests.get(url, headers_dict).text
